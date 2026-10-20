@@ -52,8 +52,8 @@ Implementation checkboxes remain unchecked until there is a code or test result 
 - [x] Create the minimal FastAPI application factory and `main` entry point with no feature routes. Evidence: `apps/api/app/main.py` parses; runtime import/OpenAPI smoke check remains pending dependency installation.
 - [x] Add typed settings, `.env.example`, and `.gitignore` protection for `.env`. Evidence: `apps/api/app/settings.py`, `.env.example`, and `git check-ignore .env`.
 - [x] Establish dependency direction: API → core; domain independent of FastAPI/SQLAlchemy; schemas independent of ORM. Evidence: no FastAPI or SQLAlchemy imports in the domain or schema packages.
-- [x] Document database engine/session lifecycle: create the engine once at application startup, close it at shutdown, and create/close a session per request or unit of work. Commit or roll back explicitly. Never share a session across concurrent tasks or retain a request session for future background work. Evidence: `project-docs/README.md` local development section; engine code remains in section 2.
-- [x] Document clean-environment, Docker startup, and API startup commands. Evidence: `project-docs/README.md` and `AGENTS.md`.
+- [x] Document database engine/session lifecycle: create the engine once at application startup, close it at shutdown, and create/close a session per request or unit of work. Commit or roll back explicitly. Never share a session across concurrent tasks or retain a request session for future background work. Evidence: root `README.md` local development section; engine code remains in section 2.
+- [x] Document clean-environment, Docker startup, and API startup commands. Evidence: root `README.md` and `AGENTS.md`.
 - [ ] Add migration and test commands to the local development guide after sections 2 and 4 create those workflows.
 
 #### Docker and local development environment
@@ -62,9 +62,9 @@ Implementation checkboxes remain unchecked until there is a code or test result 
 - [x] Keep local credentials in ignored `.env`; commit only `.env.example` placeholders and document local-only use. Evidence: `.gitignore`, `.env.example`, and `git check-ignore .env`.
 - [x] Configure the host-run API/test process to connect through `localhost` and the published port using `DATABASE_URL`. Evidence: `.env.example` and typed `Settings.database_url`.
 - [x] Keep the default Compose stack limited to PostgreSQL; the API runs in the local Python environment for M1. Evidence: `docker compose config` lists only `postgres`.
-- [x] Document Docker Engine/Compose v2 prerequisites and startup/health-check/shutdown commands; normal shutdown preserves the named volume. Evidence: `project-docs/README.md`; runtime health/persistence validation remains pending Docker daemon availability.
+- [x] Document Docker Engine/Compose v2 prerequisites and startup/health-check/shutdown commands; normal shutdown preserves the named volume. Evidence: root `README.md`; runtime health/persistence validation remains pending Docker daemon availability.
 - [ ] Configure integration tests to create a uniquely named disposable database on the local PostgreSQL service and drop only that database after migration checks; never run destructive migration tests against the persistent development database.
-- [x] Document the available local loop: install the Python environment, copy/configure `.env`, start PostgreSQL, run the API, and stop services. Evidence: `project-docs/README.md` local development section.
+- [x] Document the available local loop: install the Python environment, copy/configure `.env`, start PostgreSQL, run the API, and stop services. Evidence: root `README.md` local development section.
 - [ ] Extend the local loop with migration and test commands after sections 2 and 4 create those workflows.
 
 ### 2. Persistence foundation
