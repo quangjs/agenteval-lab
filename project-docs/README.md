@@ -44,4 +44,21 @@ Mục tiêu là giúp developer trả lời các câu hỏi:
 - Test: pytest
 - CI: GitHub Actions
 
-The first release is backend/API-first. A web dashboard, dedicated workers, distributed queues, multi-tenancy, and hosted execution are deferred until the core evaluation workflow is reliable. Commands, endpoints, and schemas in these documents are design specifications, not yet implemented.
+The first release is backend/API-first. A web dashboard, dedicated workers, distributed queues, multi-tenancy, and hosted execution are deferred until the core evaluation workflow is reliable. Feature APIs and schemas in the design documents are specifications being implemented in milestones.
+
+## Local development
+
+Requirements: Python 3.13 (the `.python-version` file selects the 3.13 release line), `uv`, and Docker Engine with Compose v2.
+
+```sh
+cp .env.example .env
+uv lock
+uv sync --frozen
+docker compose up -d --wait postgres
+docker compose ps
+uv run --package agenteval-api uvicorn app.main:app --reload
+```
+
+The API runs in the local Python environment; Compose starts only PostgreSQL. The database port is published on loopback at `127.0.0.1:55432`. `docker compose down` stops the database container and preserves its named development volume. Credentials in `.env.example` are local placeholders only. Run `uv lock` when dependencies change; use `uv sync --frozen` for a locked install.
+
+The database lifecycle will be owned by the FastAPI lifespan: create one async engine/session factory at startup and dispose the engine at shutdown. Each request or unit of work gets its own short-lived session with explicit commit/rollback and guaranteed close; sessions are never shared across concurrent tasks.

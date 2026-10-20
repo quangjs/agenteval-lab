@@ -2,11 +2,11 @@
 
 ## Project Structure & Module Organization
 
-This checkout is a documentation-first project specification; the product has not been implemented yet. `project-docs/README.md` is the entry point. Product and technical guidance lives in `project-docs/docs/` (requirements, system and detailed designs, testing flow, dataset format, evaluation strategy, roadmap, and security/cost controls). The sample dataset is at `project-docs/examples/datasets/order_agent_v1.json`. Keep new material in the matching directory and update the README links when adding a document. There are currently no source or test directories.
+This repository contains the AgentEval Lab specification and the first backend scaffold. `apps/api/` holds the FastAPI application, `packages/agenteval/` holds shared domain/persistence packages, and `project-docs/` holds design documentation and the sample dataset. `migrations/` and `tests/` will be added in later sections of Milestone 1. Update documentation links when adding project documents.
 
 ## Build, Test, and Development Commands
 
-No build, test, or local-run commands are configured in this checkout. The README proposes Next.js/TypeScript, FastAPI/Python, pytest, and GitHub Actions as a future stack; treat these as design intent, not runnable commands. For documentation-only changes, review Markdown links and JSON examples manually. When implementation tooling is introduced, document the actual setup and commands here and in the README.
+Use Python 3.13, `uv`, and Docker Compose v2. Run `uv lock` after dependency changes, then `uv sync --frozen` to install the locked workspace dependencies. Start local PostgreSQL with `docker compose up -d --wait postgres`, and run the API with `uv run --package agenteval-api uvicorn app.main:app --reload`. Run `uv run pytest` for tests as they are added. `docker compose down` preserves the named database volume. Never use local Compose credentials outside development.
 
 ## Writing and Data Conventions
 
@@ -14,11 +14,11 @@ Write concise Markdown with descriptive headings, short lists, and fenced code b
 
 ## Testing Guidelines
 
-There is no automated test suite or coverage target yet. Validate edited JSON with a parser and check that relative Markdown links resolve. For future code, follow the proposed pytest convention and keep deterministic mock-tool cases suitable for repeatable CI runs.
+Tests use pytest. Keep domain/schema unit tests runnable without PostgreSQL and isolate migration integration tests to disposable databases. Use deterministic fixtures for repeatable evaluation behavior. Validate edited JSON with a parser and check relative Markdown links.
 
 ## Commit & Pull Request Guidelines
 
-Git metadata is not present in this checkout, so no repository-specific commit convention can be inferred. Use a short imperative commit subject (for example, `docs: clarify dataset versioning`). Pull requests should explain the user-facing or design change, list affected documents/data, link related work when available, and include screenshots only for visual changes. Call out any changes to schemas, lifecycle states, or security/cost assumptions.
+The history currently contains only the initial project commit, so no established commit convention can be inferred. Use a short imperative commit subject (for example, `feat: add API scaffold`). Pull requests should explain the change, list affected packages/documents, link related work when available, and include screenshots only for visual changes. Call out changes to schemas, lifecycle states, or security/cost assumptions.
 
 ## Security and Configuration
 
